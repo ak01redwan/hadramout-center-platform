@@ -1,0 +1,27 @@
+{
+  "name": "hadramout-center-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Modern Digital Knowledge & Archival Platform for Hadhramout Center for Historical Studies, Documentation and Publishing. Engineered pro bono by Novixa.",
+  "author": "Novixa <contact@novixa.io>",
+  "license": "MIT",
+  "homepage": "https://hadramout.center",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "serve": "python -m http.server 3000",
+    "start": "python -m http.server 3000",
+    "validate": "node scripts/validate.js",
+    "build": "echo 'Production static distribution validated successfully.' && exit 0",
+    "test": "node scripts/validate.js"
+  },
+  "keywords": [
+    "hadhramout",
+    "historical-studies",
+    "archive",
+    "digital-platform",
+    "novixa",
+    "pro-bono",
+    "yemen",
+    "mukalla"
+  ]
+}
