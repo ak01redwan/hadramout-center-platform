@@ -102,12 +102,37 @@
           <li><a href="#conferences" class="nav-link" data-nav="conferences" id="nav-conferences">المؤتمرات</a></li>
           <li><a href="#forum" class="nav-link" data-nav="forum" id="nav-forum">منتدى عميد الوفاء</a></li>
           <li><a href="#timeline" class="nav-link" data-nav="timeline" id="nav-timeline">خط التاريخ</a></li>
+          <li><a href="#media" class="nav-link" data-nav="media" id="nav-media">الوسائط والبودكاست</a></li>
           <li><a href="#contact" class="nav-link" data-nav="contact" id="nav-contact">تواصل معنا</a></li>
         </ul>
       </nav>
 
       <!-- Header Actions -->
       <div class="header-actions">
+        <!-- Academic Reader Utilities -->
+        <div class="header-utility-group">
+          <!-- Dark / Daylight Theme Toggle -->
+          <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="تبديل الوضع الليلي الأكاديمي" title="تبديل الوضع الليلي">
+            <svg id="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <span id="theme-label" style="display: none;">ليلي</span>
+          </button>
+
+          <!-- Typography Size Scaler -->
+          <button class="font-scaler-btn" id="font-scaler-btn" aria-label="تعديل حجم الخط للقراءة" title="تعديل حجم الخط">
+            <span id="font-scaler-text">A+</span>
+          </button>
+
+          <!-- Saved Research Bibliography (Bookmarks) -->
+          <button class="saved-list-btn" id="btn-open-saved-list" aria-label="مكتبتي البحثية المحفوظة" title="مكتبتي البحثية">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+            </svg>
+            <span class="saved-counter-badge" id="saved-counter-badge">0</span>
+          </button>
+        </div>
+
         <button class="lang-toggle-btn" id="lang-toggle-btn" aria-label="تبديل اللغة">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -144,12 +169,14 @@
         <li><a href="#conferences" class="mobile-nav-link" data-nav="conferences">المؤتمرات العلمية</a></li>
         <li><a href="#forum" class="mobile-nav-link" data-nav="forum">منتدى عميد الوفاء</a></li>
         <li><a href="#timeline" class="mobile-nav-link" data-nav="timeline">خط تاريخ حضرموت</a></li>
+        <li><a href="#media" class="mobile-nav-link" data-nav="media">الوسائط والبودكاست</a></li>
         <li><a href="#contact" class="mobile-nav-link" data-nav="contact">تواصل معنا</a></li>
       </ul>
       <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--color-border);">
         <p style="font-size: 0.85rem; color: var(--color-text-muted);">عمارة باشريف، حي الشهيد خالد، المكلا</p>
         <p style="font-size: 0.85rem; color: var(--color-text-muted); direction: ltr; text-align: start;">info@hadramout.center</p>
       </div>
+    </div>
     </div>
   </header>
 
@@ -272,8 +299,27 @@
           </div>
         </section>
 
-        <!-- Timeline Teaser -->
+        <!-- Multimedia & Podcast Section Teaser -->
         <section class="section section-alt">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-eyebrow" id="txt-home-media-eyebrow">الإنتاج المرئي والمسموع</span>
+              <h2 class="section-title" id="txt-home-media-title">بودكاست سقاية والمكتبة المرئية</h2>
+              <p class="section-subtitle" id="txt-home-media-subtitle">استمع وشاهد حلقات بودكاست سقاية وبرنامج كاتب وكتاب في توثيق تاريخ وتراث حضرموت.</p>
+            </div>
+
+            <div class="media-grid" id="home-media-grid">
+              <!-- Populated by app.js -->
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+              <a href="#media" class="btn-primary" id="btn-view-all-media">استكشف جميع الحلقات واللقاءات المرئية</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Timeline Teaser -->
+        <section class="section">
           <div class="container">
             <div class="section-header">
               <span class="section-eyebrow" id="txt-timeline-eyebrow">ذاكرة المكان والزمان</span>
@@ -470,7 +516,33 @@
         </section>
       </div>
 
-      <!-- 8. CONTACT VIEW -->
+      <!-- 8. MEDIA & PODCASTS VIEW -->
+      <div id="view-media" class="page-view" style="display: none;">
+        <section class="section">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-eyebrow" id="txt-media-eyebrow">الإنتاج المرئي والمسموع</span>
+              <h2 class="section-title" id="txt-media-title">بودكاست سقاية والمكتبة المرئية</h2>
+              <p class="section-subtitle" id="txt-media-subtitle">
+                حوارات تاريخية موثقة ولقاءات علمية تسجل الذاكرة الحضرمية الشفهية والمكتوبة، وحلقات برنامج كاتب وكتاب.
+              </p>
+            </div>
+
+            <!-- Media Category Filter -->
+            <div class="filter-bar" style="margin-bottom: 2rem;">
+              <button class="filter-chip active" data-media-filter="all" id="filter-media-all">الكل</button>
+              <button class="filter-chip" data-media-filter="podcast" id="filter-media-podcast">بودكاست سقاية</button>
+              <button class="filter-chip" data-media-filter="video" id="filter-media-video">سلسلة كاتب وكتاب والندوات</button>
+            </div>
+
+            <div class="media-grid" id="full-media-grid">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 9. CONTACT VIEW -->
       <div id="view-contact" class="page-view" style="display: none;">
         <section class="section">
           <div class="container">
@@ -584,6 +656,19 @@
         <button class="modal-close-btn" id="modal-close-btn" aria-label="إغلاق">&times;</button>
       </div>
       <div class="modal-body" id="modal-body-content">
+        <!-- Injected by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Research Bibliography Modal -->
+  <div class="modal-overlay" id="saved-list-modal" role="dialog" aria-modal="true" aria-labelledby="saved-modal-title">
+    <div class="modal-dialog" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="saved-modal-title">قائمتي ومكتبتي البحثية المحفوظة</h3>
+        <button class="modal-close-btn" id="saved-modal-close-btn" aria-label="إغلاق">&times;</button>
+      </div>
+      <div class="modal-body" id="saved-modal-body">
         <!-- Injected by app.js -->
       </div>
     </div>

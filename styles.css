@@ -1183,3 +1183,294 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================================
+   ACADEMIC DARK MODE & ACCESSIBILITY CONTROLS
+======================================================== */
+[data-theme="dark"] {
+  --color-primary-900: #f8fafc;
+  --color-primary-800: #e2e8f0;
+  --color-primary-700: #cbd5e1;
+  --color-primary-600: #94a3b8;
+
+  --color-parchment-bg: #090e17;
+  --color-surface-card: #111827;
+  --color-surface-subtle: #172033;
+
+  --color-border: #1e293b;
+  --color-border-hover: #334155;
+  --color-border-focus: #f59e0b;
+
+  --color-text-main: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-text-subtle: #64748b;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .site-header {
+  background: rgba(9, 14, 23, 0.88);
+  border-bottom-color: #1e293b;
+}
+
+[data-theme="dark"] .book-card {
+  background: #111827;
+  border-color: #1e293b;
+}
+
+[data-theme="dark"] .book-card:hover {
+  border-color: var(--color-amber-500);
+}
+
+[data-theme="dark"] .hero-section {
+  background: radial-gradient(circle at 50% 0%, #152238 0%, #090e17 75%);
+}
+
+[data-theme="dark"] .search-container {
+  background: #111827;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .search-input {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .filter-chip {
+  background: #111827;
+  color: #94a3b8;
+  border-color: #1e293b;
+}
+
+[data-theme="dark"] .filter-chip.active {
+  background: var(--color-amber-500);
+  color: #000000;
+}
+
+[data-theme="dark"] .modal-dialog {
+  background: #111827;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .citation-box {
+  background: #172033;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+/* Font Size Scaling Classes */
+html.font-size-sm { font-size: 14.5px; }
+html.font-size-md { font-size: 16px; }
+html.font-size-lg { font-size: 18px; }
+
+/* Action Icon Buttons & Badges */
+.header-utility-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle-btn, .font-scaler-btn, .saved-list-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  height: 38px;
+  padding: 0 0.65rem;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover, .font-scaler-btn:hover, .saved-list-btn:hover {
+  border-color: var(--color-amber-500);
+  color: var(--color-amber-600);
+}
+
+.saved-counter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: var(--color-amber-500);
+  color: #000000;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.btn-bookmark {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.btn-bookmark:hover, .btn-bookmark.bookmarked {
+  color: var(--color-amber-500);
+  transform: scale(1.1);
+}
+
+.btn-bookmark.bookmarked svg {
+  fill: var(--color-amber-500);
+}
+
+/* Multimedia & Podcast Grid */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.media-card {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.media-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-amber-400);
+}
+
+.media-thumbnail-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #08111e;
+  overflow: hidden;
+}
+
+.media-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-smooth);
+}
+
+.media-card:hover .media-thumbnail-img {
+  transform: scale(1.05);
+}
+
+.media-play-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 17, 30, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: background var(--transition-fast);
+}
+
+.media-play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background: var(--color-amber-500);
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5);
+  transition: transform var(--transition-fast);
+}
+
+.media-card:hover .media-play-btn {
+  transform: scale(1.15);
+}
+
+.media-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.media-series-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-amber-600);
+  margin-bottom: 0.5rem;
+}
+
+.media-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary-900);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.media-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.media-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--color-text-subtle);
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.85rem;
+}
+
+/* Citations Export Format Buttons */
+.citation-export-bar {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--color-border);
+}
+
+.btn-export-format {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-export-format:hover {
+  background: var(--color-amber-500);
+  color: #000000;
+  border-color: var(--color-amber-600);
+}
+

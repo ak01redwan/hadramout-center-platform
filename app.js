@@ -11,7 +11,11 @@
     currentView: 'home',
     activeCategory: 'all',
     searchQuery: '',
-    selectedPublication: null
+    selectedPublication: null,
+    theme: localStorage.getItem('hc_theme') || 'light',
+    fontSize: localStorage.getItem('hc_font_size') || 'md',
+    savedBooks: JSON.parse(localStorage.getItem('hc_saved_books') || '[]'),
+    mediaFilter: 'all'
   };
 
   // DOM Elements Cache
@@ -23,6 +27,13 @@
     mobileDrawer: document.getElementById('mobile-drawer'),
     langToggleBtn: document.getElementById('lang-toggle-btn'),
     langLabel: document.getElementById('lang-label'),
+    themeToggleBtn: document.getElementById('theme-toggle-btn'),
+    fontScalerBtn: document.getElementById('font-scaler-btn'),
+    btnOpenSavedList: document.getElementById('btn-open-saved-list'),
+    savedCounterBadge: document.getElementById('saved-counter-badge'),
+    savedListModal: document.getElementById('saved-list-modal'),
+    savedModalBody: document.getElementById('saved-modal-body'),
+    savedModalCloseBtn: document.getElementById('saved-modal-close-btn'),
     globalSearchInput: document.getElementById('global-search-input'),
     categoryFilterBar: document.getElementById('category-filter-bar'),
     homePublicationsGrid: document.getElementById('home-publications-grid'),
@@ -32,6 +43,8 @@
     fullForumGrid: document.getElementById('full-forum-grid'),
     homeTimelineTrack: document.getElementById('home-timeline-track'),
     fullTimelineTrack: document.getElementById('full-timeline-track'),
+    homeMediaGrid: document.getElementById('home-media-grid'),
+    fullMediaGrid: document.getElementById('full-media-grid'),
     aboutLeadershipGrid: document.getElementById('about-leadership-grid'),
     aboutDepartmentsGrid: document.getElementById('about-departments-grid'),
     citationModal: document.getElementById('citation-modal'),
@@ -49,6 +62,7 @@
       conferences: document.getElementById('view-conferences'),
       forum: document.getElementById('view-forum'),
       timeline: document.getElementById('view-timeline'),
+      media: document.getElementById('view-media'),
       contact: document.getElementById('view-contact')
     }
   };
@@ -113,6 +127,7 @@
       conferences: isAr ? 'المؤتمرات العلمية | مركز حضرموت' : 'Scientific Conferences | Hadhramout Center',
       forum: isAr ? 'منتدى عميد الوفاء الثقافي | مركز حضرموت' : 'Ameed Al-Wafa Cultural Forum | Hadhramout Center',
       timeline: isAr ? 'خط التاريخ والحضارة الحضرمية | مركز حضرموت' : 'Historical Timeline of Hadhramout',
+      media: isAr ? 'الوسائط وبودكاست سقاية | مركز حضرموت' : 'Media & Siqayah Podcast | Hadhramout Center',
       contact: isAr ? 'تواصل مع المركز وطلب الأبحاث | مركز حضرموت' : 'Contact & Research Inquiries | Hadhramout Center'
     };
     document.title = titles[state.currentView] || titles.home;
@@ -219,6 +234,7 @@
     const category = isAr ? book.categoryAr : book.categoryEn;
     const abstract = isAr ? book.abstractAr : book.abstractEn;
     const t = HC_DATA.translations[state.currentLang];
+    const isSaved = state.savedBooks.includes(book.id);
 
     return `
       <article class="book-card" data-book-id="${book.id}">
@@ -226,7 +242,14 @@
           <img src="${book.coverImage}" alt="${title}" class="book-cover-img" loading="lazy" onerror="this.src='https://files.hadramout.center/media/2026/02/img20260209_20543382-scaled.jpg'">
         </div>
         <div class="book-content">
-          <span class="book-tag">${category}</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <span class="book-tag">${category}</span>
+            <button class="btn-bookmark ${isSaved ? 'bookmarked' : ''}" data-bookmark-id="${book.id}" title="${isSaved ? (isAr ? 'إزالة من المحفوظات' : 'Remove Bookmark') : (isAr ? 'حفظ في مكتبتي البحثية' : 'Save Reference')}" aria-label="حفظ المرجع">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+              </svg>
+            </button>
+          </div>
           <h3 class="book-title">${title}</h3>
           <p class="book-author">${author}</p>
           <p class="book-abstract">${abstract}</p>
@@ -301,6 +324,15 @@
         e.stopPropagation();
         const pubId = btn.getAttribute('data-pub-id');
         openCitationModal(pubId);
+      });
+    });
+
+    // Attach event listeners for bookmarks
+    document.querySelectorAll('.btn-bookmark').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const bookId = btn.getAttribute('data-bookmark-id');
+        toggleBookmark(bookId);
       });
     });
 
@@ -462,6 +494,263 @@
     renderForumEvents();
     renderTimeline();
     renderAboutHub();
+    renderAllMedia();
+    updateSavedCounter();
+  }
+
+  // Citation Export Utilities
+  function generateRIS(book) {
+    return [
+      'TY  - BOOK',
+      `TI  - ${book.titleAr}`,
+      `AU  - ${book.authorAr}`,
+      `PY  - ${book.year}`,
+      'PB  - مركز حضرموت للدراسات التاريخية والتوثيق والنشر',
+      'CY  - المكلا، حضرموت، اليمن',
+      `SN  - ${book.id}`,
+      `N2  - ${book.abstractAr}`,
+      'UR  - https://hadramout.center',
+      'ER  - '
+    ].join('\r\n');
+  }
+
+  function generateBibTeX(book) {
+    const cleanKey = book.id.replace(/[^a-zA-Z0-9]/g, '_');
+    return `@book{${cleanKey},
+  author    = {${book.authorAr}},
+  title     = {${book.titleAr}},
+  year      = {${book.year}},
+  publisher = {مركز حضرموت للدراسات التاريخية والتوثيق والنشر},
+  address   = {المكلا، حضرموت},
+  url       = {https://hadramout.center}
+}`;
+  }
+
+  function downloadFile(filename, content, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Theme Management
+  function applyTheme(theme) {
+    state.theme = theme;
+    localStorage.setItem('hc_theme', theme);
+    elements.html.setAttribute('data-theme', theme);
+    const moonSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
+    const sunSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>`;
+    if (elements.themeToggleBtn) {
+      elements.themeToggleBtn.innerHTML = (theme === 'dark' ? sunSvg : moonSvg) + `<span id="theme-label" style="display:none">${theme}</span>`;
+      elements.themeToggleBtn.setAttribute('title', theme === 'dark' ? (state.currentLang === 'ar' ? 'التحويل للوضع النهاري' : 'Switch to Daylight Mode') : (state.currentLang === 'ar' ? 'التحويل للوضع الليلي الأكاديمي' : 'Switch to Dark Mode'));
+    }
+  }
+
+  // Font Scaling
+  function applyFontSize(size) {
+    state.fontSize = size;
+    localStorage.setItem('hc_font_size', size);
+    elements.html.classList.remove('font-size-sm', 'font-size-md', 'font-size-lg');
+    elements.html.classList.add(`font-size-${size}`);
+    const label = size === 'sm' ? 'A-' : size === 'lg' ? 'A++' : 'A+';
+    if (elements.fontScalerBtn) {
+      elements.fontScalerBtn.innerHTML = `<span>${label}</span>`;
+    }
+  }
+
+  function cycleFontSize() {
+    const next = state.fontSize === 'md' ? 'lg' : state.fontSize === 'lg' ? 'sm' : 'md';
+    applyFontSize(next);
+  }
+
+  // Saved Bibliography (Bookmarks) Controller
+  function toggleBookmark(bookId) {
+    const t = HC_DATA.translations[state.currentLang];
+    const idx = state.savedBooks.indexOf(bookId);
+    if (idx > -1) {
+      state.savedBooks.splice(idx, 1);
+      showToast(t.removedBookmarkToast);
+    } else {
+      state.savedBooks.push(bookId);
+      showToast(t.bookmarkedToast);
+    }
+    localStorage.setItem('hc_saved_books', JSON.stringify(state.savedBooks));
+    updateSavedCounter();
+    renderPublications();
+    if (elements.savedListModal && elements.savedListModal.classList.contains('open')) {
+      renderSavedListModal();
+    }
+  }
+
+  function updateSavedCounter() {
+    if (elements.savedCounterBadge) {
+      elements.savedCounterBadge.textContent = state.savedBooks.length;
+    }
+  }
+
+  function openSavedListModal() {
+    if (!elements.savedListModal || !elements.savedModalBody) return;
+    renderSavedListModal();
+    elements.savedListModal.classList.add('open');
+  }
+
+  function closeSavedListModal() {
+    if (elements.savedListModal) {
+      elements.savedListModal.classList.remove('open');
+    }
+  }
+
+  function renderSavedListModal() {
+    const isAr = state.currentLang === 'ar';
+    const t = HC_DATA.translations[state.currentLang];
+    const saved = HC_DATA.publications.filter(p => state.savedBooks.includes(p.id));
+
+    if (!saved.length) {
+      elements.savedModalBody.innerHTML = `
+        <div style="text-align: center; padding: 3rem 1rem;">
+          <p style="font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+            ${isAr ? 'لم تقم بحفظ أي مراجع في مكتبتك البحثية بعد.' : 'You have not saved any publications in your bibliography yet.'}
+          </p>
+          <p style="font-size: 0.88rem; color: var(--color-text-subtle);">
+            ${isAr ? 'انقر على أيقونة الإشارة المرجعية بجانب أي كتاب لحفظه وتصدير مرافعه بنقرة واحدة.' : 'Click the bookmark icon on any book card to save it for bulk citation export.'}
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const itemsHtml = saved.map(book => `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); gap: 1rem;">
+        <div>
+          <h5 style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary-900);">${isAr ? book.titleAr : book.titleEn}</h5>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted);">${isAr ? book.authorAr : book.authorEn} (${book.year}م)</p>
+        </div>
+        <div style="display: flex; gap: 0.35rem; shrink-0;">
+          <button class="btn-icon btn-cite-pub" data-pub-id="${book.id}" title="${t.citeAPA}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          </button>
+          <button class="btn-icon btn-remove-saved" data-book-id="${book.id}" title="${isAr ? 'إزالة' : 'Remove'}" style="color: #ef4444;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    elements.savedModalBody.innerHTML = `
+      <div style="margin-bottom: 1.25rem;">
+        <p style="font-size: 0.9rem; color: var(--color-text-muted);">
+          ${isAr ? `لديك <strong>${saved.length}</strong> مراجع محفوظة في جلستك الحالية. يمكنك تصديرها جميعاً مباشرة:` : `You have <strong>${saved.length}</strong> saved references in this session. Export all:`}
+        </p>
+      </div>
+
+      <div style="max-height: 280px; overflow-y: auto; margin-bottom: 1.5rem;">
+        ${itemsHtml}
+      </div>
+
+      <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; display: flex; gap: 0.65rem; flex-wrap: wrap;">
+        <button class="btn-primary" id="btn-batch-export-ris" style="font-size: 0.85rem;">
+          ${isAr ? 'تصدير الكل لـ Zotero (.RIS)' : 'Export All (.RIS)'}
+        </button>
+        <button class="btn-secondary" id="btn-batch-export-bib" style="font-size: 0.85rem;">
+          ${isAr ? 'تصدير الكل لـ BibTeX (.bib)' : 'Export All (.bib)'}
+        </button>
+        <button class="btn-secondary" id="btn-clear-saved" style="font-size: 0.85rem; color: #ef4444; border-color: #ef4444;">
+          ${isAr ? 'تفريغ القائمة' : 'Clear All'}
+        </button>
+      </div>
+    `;
+
+    // Hook batch actions
+    document.getElementById('btn-batch-export-ris')?.addEventListener('click', () => {
+      const combinedRIS = saved.map(generateRIS).join('\r\n\r\n');
+      downloadFile('hadhramout_center_bibliography.ris', combinedRIS, 'application/x-research-info-systems');
+      showToast(isAr ? 'تم تنزيل حزمة مراجع Zotero!' : 'RIS bibliography downloaded!');
+    });
+
+    document.getElementById('btn-batch-export-bib')?.addEventListener('click', () => {
+      const combinedBib = saved.map(generateBibTeX).join('\n\n');
+      downloadFile('hadhramout_center_bibliography.bib', combinedBib, 'application/x-bibtex');
+      showToast(isAr ? 'تم تنزيل حزمة مراجع BibTeX!' : 'BibTeX bibliography downloaded!');
+    });
+
+    document.getElementById('btn-clear-saved')?.addEventListener('click', () => {
+      state.savedBooks = [];
+      localStorage.setItem('hc_saved_books', JSON.stringify([]));
+      updateSavedCounter();
+      renderSavedListModal();
+      renderPublications();
+    });
+
+    elements.savedModalBody.querySelectorAll('.btn-remove-saved').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-book-id');
+        toggleBookmark(id);
+      });
+    });
+
+    elements.savedModalBody.querySelectorAll('.btn-cite-pub').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-pub-id');
+        closeSavedListModal();
+        openCitationModal(id);
+      });
+    });
+  }
+
+  // Multimedia & Podcasts Renderer
+  function renderMediaCard(item) {
+    const isAr = state.currentLang === 'ar';
+    const isPodcast = item.type === 'podcast';
+    const title = isAr ? item.titleAr : item.titleEn;
+    const series = isAr ? item.seriesAr : item.seriesEn;
+    const desc = isAr ? item.descriptionAr : item.descriptionEn;
+    const guest = isAr ? item.guestAr : item.guestEn;
+    const date = isAr ? item.dateAr : item.dateEn;
+
+    return `
+      <article class="media-card">
+        <div class="media-thumbnail-wrap">
+          <img src="${item.coverImage}" alt="${title}" class="media-thumbnail-img" loading="lazy">
+          <a href="${item.videoUrl || item.audioUrl}" target="_blank" rel="noopener noreferrer" class="media-play-overlay" aria-label="تشغيل">
+            <div class="media-play-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+          </a>
+        </div>
+        <div class="media-content">
+          <span class="media-series-badge">${series} · ${item.duration}</span>
+          <h3 class="media-title">${title}</h3>
+          <p class="media-desc">${desc}</p>
+          <div class="media-meta">
+            <span><strong>${isAr ? 'الضيف: ' : 'Guest: '}</strong> ${guest}</span>
+            <span>${date}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderAllMedia() {
+    const filter = state.mediaFilter;
+    const filtered = (HC_DATA.media || []).filter(item => {
+      if (filter === 'all') return true;
+      return item.type === filter;
+    });
+
+    if (elements.homeMediaGrid) {
+      elements.homeMediaGrid.innerHTML = (HC_DATA.media || []).slice(0, 3).map(renderMediaCard).join('');
+    }
+
+    if (elements.fullMediaGrid) {
+      elements.fullMediaGrid.innerHTML = filtered.map(renderMediaCard).join('');
+    }
   }
 
   // Citation & Detail Modal Controller
@@ -492,12 +781,12 @@
         </div>
       </div>
 
-      <div>
+      <div style="margin-top: 1rem;">
         <h5 style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary-900); margin-bottom: 0.4rem;">${isAr ? 'مستخلص الدراسة:' : 'Abstract:'}</h5>
         <p style="font-size: 0.92rem; color: var(--color-text-muted); line-height: 1.7;">${abstract}</p>
       </div>
 
-      <div style="border-top: 1px solid var(--color-border); padding-top: 1rem;">
+      <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 1rem;">
         <h5 style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary-900); margin-bottom: 0.5rem;">${isAr ? 'نسخ الاقتباس الأكاديمي المباشر:' : 'Direct Academic Citations:'}</h5>
         
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -525,10 +814,22 @@
             <div class="citation-box">${book.citationMLA}</div>
           </div>
         </div>
+
+        <!-- Academic Reference File Exports -->
+        <div class="citation-export-bar">
+          <button class="btn-export-format btn-download-ris">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>${t.exportRIS}</span>
+          </button>
+          <button class="btn-export-format btn-download-bib">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>${t.exportBibTeX}</span>
+          </button>
+        </div>
       </div>
 
-      <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; display: flex; gap: 0.85rem; flex-wrap: wrap;">
-        <a href="https://wa.me/00967773570194?text=${encodeURIComponent('السلام عليكم، أود الاستفسار عن اقتناء نسخة من كتاب: ' + book.titleAr)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="flex: 1; justify-content: center;">
+      <div style="border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 1rem; display: flex; gap: 0.85rem; flex-wrap: wrap;">
+        <a href="https://wa.me/00967773570194?text=${encodeURIComponent('السلام عليكم مركز حضرموت للدراسات، أود طلب اقتناء نسخة من كتاب: ' + book.titleAr + ' للمؤلف: ' + book.authorAr + ' (كود: ' + book.id + ')')}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="flex: 1; justify-content: center;">
           ${t.requestBook}
         </a>
       </div>
@@ -546,6 +847,17 @@
           showToast(t.copiedToast);
         });
       });
+    });
+
+    // Hook up RIS & BibTeX downloads
+    elements.modalBodyContent.querySelector('.btn-download-ris')?.addEventListener('click', () => {
+      downloadFile(`${book.id}_citation.ris`, generateRIS(book), 'application/x-research-info-systems');
+      showToast(isAr ? 'تم تنزيل ملف مرجع Zotero (.RIS) بنجاح!' : 'RIS Citation downloaded!');
+    });
+
+    elements.modalBodyContent.querySelector('.btn-download-bib')?.addEventListener('click', () => {
+      downloadFile(`${book.id}_citation.bib`, generateBibTeX(book), 'application/x-bibtex');
+      showToast(isAr ? 'تم تنزيل ملف مرجع BibTeX (.bib) بنجاح!' : 'BibTeX Citation downloaded!');
     });
 
     elements.citationModal.classList.add('open');
@@ -587,6 +899,44 @@
         applyLanguage(nextLang);
       });
     }
+
+    // Theme Toggle Button
+    if (elements.themeToggleBtn) {
+      elements.themeToggleBtn.addEventListener('click', () => {
+        const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+      });
+    }
+
+    // Font Scaler Button
+    if (elements.fontScalerBtn) {
+      elements.fontScalerBtn.addEventListener('click', cycleFontSize);
+    }
+
+    // Saved List Modal Trigger & Close
+    if (elements.btnOpenSavedList) {
+      elements.btnOpenSavedList.addEventListener('click', openSavedListModal);
+    }
+    if (elements.savedModalCloseBtn) {
+      elements.savedModalCloseBtn.addEventListener('click', closeSavedListModal);
+    }
+    if (elements.savedListModal) {
+      elements.savedListModal.addEventListener('click', (e) => {
+        if (e.target === elements.savedListModal) {
+          closeSavedListModal();
+        }
+      });
+    }
+
+    // Media Filter Chips
+    document.querySelectorAll('[data-media-filter]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('[data-media-filter]').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.mediaFilter = chip.getAttribute('data-media-filter') || 'all';
+        renderAllMedia();
+      });
+    });
 
     // Search Input
     if (elements.globalSearchInput) {
@@ -632,6 +982,7 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeCitationModal();
+        closeSavedListModal();
         if (elements.mobileDrawer) {
           elements.mobileDrawer.classList.remove('open');
         }
@@ -676,6 +1027,8 @@
   // Initialization
   function init() {
     initEventListeners();
+    applyTheme(state.theme);
+    applyFontSize(state.fontSize);
     applyLanguage(state.currentLang);
     handleHashChange();
   }
