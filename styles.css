@@ -1474,3 +1474,110 @@ html.font-size-lg { font-size: 18px; }
   border-color: var(--color-amber-600);
 }
 
+/* Search Keyboard Shortcut Badge */
+.search-kbd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.72rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--color-text-subtle);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  position: absolute;
+  inset-inline-end: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .search-kbd-badge {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Scholarly Print Stylesheet (Ctrl + P / Academic Paper Citations)
+   ========================================================================== */
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Hide interactive non-content UI elements */
+  #site-header,
+  #site-footer,
+  #mobile-drawer,
+  #toast-notification,
+  .hero-cta-group,
+  .filter-chips-bar,
+  .search-box-wrap,
+  .btn-icon,
+  .btn-bookmark,
+  .theme-toggle-btn,
+  .font-scaler-btn,
+  .btn-open-saved-list,
+  .media-play-overlay,
+  .contact-section {
+    display: none !important;
+  }
+
+  /* Modals when printed */
+  .modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .modal-container {
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .modal-close-btn,
+  .citation-export-bar,
+  .btn-share-book,
+  .btn-print-modal {
+    display: none !important;
+  }
+
+  .citation-box {
+    border: 1px solid #999999 !important;
+    background: #fbfbfb !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  /* Avoid orphaned page breaks */
+  .book-card,
+  .magazine-featured-card,
+  .timeline-card,
+  .leader-card,
+  .media-card {
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem !important;
+  }
+}
+

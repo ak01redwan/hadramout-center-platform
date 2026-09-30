@@ -529,7 +529,10 @@ const HC_DATA = {
       removedBookmarkToast: "تمت إزالة المرجع من مكتبتك البحثية!",
       mediaEyebrow: "الإنتاج المرئي والمسموع",
       mediaTitle: "بودكاست سقاية والمكتبة المرئية",
-      mediaSubtitle: "حوارات تاريخية موثقة ولقاءات علمية تسجل الذاكرة الحضرمية الشفهية والمكتوبة"
+      mediaSubtitle: "حوارات تاريخية موثقة ولقاءات علمية تسجل الذاكرة الحضرمية الشفهية والمكتوبة",
+      shareBook: "مشاركة رابط الكتاب",
+      printCard: "طباعة بطاقة التوثيق",
+      copiedLinkToast: "تم نسخ الرابط المباشر للكتاب إلى الحافظة!"
     },
     en: {
       navHome: "Home",
@@ -593,7 +596,10 @@ const HC_DATA = {
       removedBookmarkToast: "Reference removed from your research bibliography!",
       mediaEyebrow: "Audiovisual Archives",
       mediaTitle: "Siqayah Podcast & Video Library",
-      mediaSubtitle: "Documentary dialogues and academic panels capturing living Hadhrami oral and archival history"
+      mediaSubtitle: "Documentary dialogues and academic panels capturing living Hadhrami oral and archival history",
+      shareBook: "Share Book Link",
+      printCard: "Print Citation Card",
+      copiedLinkToast: "Direct book link copied to clipboard!"
     }
   }
 };

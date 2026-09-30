@@ -136,6 +136,14 @@
   // Routing via Hash
   function handleHashChange() {
     const rawHash = window.location.hash.replace('#', '').trim();
+    if (rawHash.startsWith('book-')) {
+      const bookId = rawHash.replace('book-', '');
+      navigateTo('books', false);
+      setTimeout(() => {
+        openCitationModal(bookId);
+      }, 150);
+      return;
+    }
     if (rawHash && elements.views[rawHash]) {
       navigateTo(rawHash, false);
     } else {
@@ -825,6 +833,14 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             <span>${t.exportBibTeX}</span>
           </button>
+          <button class="btn-export-format btn-share-book">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>${t.shareBook || (isAr ? 'مشاركة رابط الكتاب' : 'Share Link')}</span>
+          </button>
+          <button class="btn-export-format btn-print-modal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>${t.printCard || (isAr ? 'طباعة البطاقة' : 'Print')}</span>
+          </button>
         </div>
       </div>
 
@@ -858,6 +874,27 @@
     elements.modalBodyContent.querySelector('.btn-download-bib')?.addEventListener('click', () => {
       downloadFile(`${book.id}_citation.bib`, generateBibTeX(book), 'application/x-bibtex');
       showToast(isAr ? 'تم تنزيل ملف مرجع BibTeX (.bib) بنجاح!' : 'BibTeX Citation downloaded!');
+    });
+
+    // Hook up Share Book Link
+    elements.modalBodyContent.querySelector('.btn-share-book')?.addEventListener('click', () => {
+      const shareUrl = window.location.origin + window.location.pathname + '#book-' + book.id;
+      if (navigator.share) {
+        navigator.share({
+          title: isAr ? book.titleAr : book.titleEn,
+          text: (isAr ? book.titleAr : book.titleEn) + ' — ' + (isAr ? 'مركز حضرموت للدراسات التاريخية والتوثيق والنشر' : 'Hadhramout Center'),
+          url: shareUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showToast(t.copiedLinkToast || (isAr ? 'تم نسخ الرابط المباشر للكتاب إلى الحافظة!' : 'Direct book link copied!'));
+        });
+      }
+    });
+
+    // Hook up Print modal
+    elements.modalBodyContent.querySelector('.btn-print-modal')?.addEventListener('click', () => {
+      window.print();
     });
 
     elements.citationModal.classList.add('open');
@@ -980,6 +1017,17 @@
     }
 
     window.addEventListener('keydown', (e) => {
+      // Focus search with Ctrl+K or Cmd+K
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (state.currentView !== 'books' && state.currentView !== 'home') {
+          navigateTo('books');
+        }
+        elements.globalSearchInput?.focus();
+        elements.globalSearchInput?.select();
+        return;
+      }
+
       if (e.key === 'Escape') {
         closeCitationModal();
         closeSavedListModal();
