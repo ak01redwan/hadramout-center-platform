@@ -32,7 +32,7 @@
   <meta name="theme-color" content="#0f1f38">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.1.0">
 
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -97,12 +97,12 @@
         <ul class="nav-menu" id="nav-menu">
           <li><a href="#home" class="nav-link active" data-nav="home" id="nav-home">الرئيسية</a></li>
           <li><a href="#about" class="nav-link" data-nav="about" id="nav-about">عن المركز</a></li>
-          <li><a href="#magazines" class="nav-link" data-nav="magazines" id="nav-magazines">مجلة حضرموت</a></li>
-          <li><a href="#books" class="nav-link" data-nav="books" id="nav-books">إصدارات الكتب</a></li>
+          <li><a href="#magazines" class="nav-link" data-nav="magazines" id="nav-magazines">المجلة</a></li>
+          <li><a href="#books" class="nav-link" data-nav="books" id="nav-books">الكتب</a></li>
           <li><a href="#conferences" class="nav-link" data-nav="conferences" id="nav-conferences">المؤتمرات</a></li>
-          <li><a href="#forum" class="nav-link" data-nav="forum" id="nav-forum">منتدى عميد الوفاء</a></li>
+          <li><a href="#forum" class="nav-link" data-nav="forum" id="nav-forum">المنتدى</a></li>
           <li><a href="#timeline" class="nav-link" data-nav="timeline" id="nav-timeline">خط التاريخ</a></li>
-          <li><a href="#media" class="nav-link" data-nav="media" id="nav-media">الوسائط والبودكاست</a></li>
+          <li><a href="#media" class="nav-link" data-nav="media" id="nav-media">الوسائط</a></li>
           <li><a href="#contact" class="nav-link" data-nav="contact" id="nav-contact">تواصل معنا</a></li>
         </ul>
       </nav>
@@ -146,7 +146,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.587 1.961.954 3.037.955l.004-.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.768-5.766zm0 10.428c-.91 0-1.802-.245-2.58-.707l-.185-.11-1.92.503.513-1.872-.12-.191c-.509-.81-.777-1.748-.776-2.712.001-2.678 2.181-4.857 4.862-4.857 2.68 0 4.859 2.179 4.86 4.858-.001 2.678-2.181 4.858-4.862 4.858z"/>
           </svg>
-          <span id="txt-header-wa">تواصل مع المركز</span>
+          <span id="txt-header-wa">واتساب</span>
         </a>
 
         <button class="btn-icon mobile-menu-btn" id="mobile-menu-btn" aria-label="فتح القائمة" aria-expanded="false">
@@ -177,7 +177,6 @@
         <p style="font-size: 0.85rem; color: var(--color-text-muted); direction: ltr; text-align: start;">info@hadramout.center</p>
       </div>
     </div>
-    </div>
   </header>
 
   <!-- Main Content Landmark -->
@@ -205,7 +204,7 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
           <input type="text" id="global-search-input" class="search-input" placeholder="ابحث في عناوين الكتب، المؤرخين، الأبحاث، وأعداد المجلة..." autocomplete="off">
-          <span class="search-shortcut-badge">ESC للمسح</span>
+          <span class="search-shortcut-badge" id="search-esc-badge">ESC للمسح</span>
         </div>
 
         <!-- Category Filter Chips -->
@@ -343,7 +342,7 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">عن المؤسسة ورسالتها</span>
+              <span class="section-eyebrow" id="txt-about-eyebrow">عن المؤسسة ورسالتها</span>
               <h2 class="section-title" id="about-hero-title">مركز حضرموت للدراسات التاريخية والتوثيق والنشر</h2>
               <p class="section-subtitle" id="about-hero-desc">
                 مركزٌ علميٌّ مستقل، تأسس ليكون رافداً معرفياً ومنهجياً موثوقاً يعنى بحفظ ودراسة ونشر التراث التاريخي لحضرموت وأعلامها وإسهاماتها الحضارية.
@@ -413,9 +412,9 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">الدوريات العلمية المحكّمة</span>
-              <h2 class="section-title">مجلة حضرموت الثقافية — الأرشيف الكامل</h2>
-              <p class="section-subtitle">
+              <span class="section-eyebrow" id="txt-mag-archive-eyebrow">الدوريات العلمية المحكّمة</span>
+              <h2 class="section-title" id="txt-mag-archive-title">مجلة حضرموت الثقافية — الأرشيف الكامل</h2>
+              <p class="section-subtitle" id="txt-mag-archive-subtitle">
                 تصفح أعداد مجلة حضرموت الثقافية المحكمة، واطلع على الفهارس والمستخلصات والأبحاث التوثيقية المنشورة.
               </p>
             </div>
@@ -432,9 +431,9 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">سلسلة إصدارات الكتب</span>
-              <h2 class="section-title">المكتبة التاريخية والتوثيقية</h2>
-              <p class="section-subtitle">
+              <span class="section-eyebrow" id="txt-books-archive-eyebrow">سلسلة إصدارات الكتب</span>
+              <h2 class="section-title" id="txt-books-archive-title">المكتبة التاريخية والتوثيقية</h2>
+              <p class="section-subtitle" id="txt-books-archive-subtitle">
                 مكتبةٌ شاملة للدراسات والكتب الصادرة عن المركز مع إمكانية التصفية الموضوعية والاقتباس الأكاديمي المباشر.
               </p>
             </div>
@@ -452,9 +451,9 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">الملتقيات الأكاديمية الدولية</span>
-              <h2 class="section-title">المؤتمرات العلمية المحكّمة</h2>
-              <p class="section-subtitle">
+              <span class="section-eyebrow" id="txt-conf-eyebrow">الملتقيات الأكاديمية الدولية</span>
+              <h2 class="section-title" id="txt-conf-title">المؤتمرات العلمية المحكّمة</h2>
+              <p class="section-subtitle" id="txt-conf-subtitle">
                 سجل المؤتمرات والندوات التاريخية التي نظمها المركز جامعاً أبحاث المؤرخين من مختلف الجامعات.
               </p>
             </div>
@@ -483,9 +482,9 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">الصالون الثقافي والفكري</span>
-              <h2 class="section-title">منتدى عميد الوفاء الثقافي</h2>
-              <p class="section-subtitle">
+              <span class="section-eyebrow" id="txt-forum-view-eyebrow">الصالون الثقافي والفكري</span>
+              <h2 class="section-title" id="txt-forum-view-title">منتدى عميد الوفاء الثقافي</h2>
+              <p class="section-subtitle" id="txt-forum-view-subtitle">
                 ندواتٌ ولقاءاتٌ دوريةٌ بالمكلا تستضيف المفكرين والباحثين لقراءة وتحليل قضايا التراث والتاريخ الحضرمي.
               </p>
             </div>
@@ -502,9 +501,9 @@
         <section class="section">
           <div class="container">
             <div class="section-header">
-              <span class="section-eyebrow">السجل التاريخي الشامل</span>
-              <h2 class="section-title">خط التاريخ والحضارة الحضرمية</h2>
-              <p class="section-subtitle">
+              <span class="section-eyebrow" id="txt-timeline-view-eyebrow">السجل التاريخي الشامل</span>
+              <h2 class="section-title" id="txt-timeline-view-title">خط التاريخ والحضارة الحضرمية</h2>
+              <p class="section-subtitle" id="txt-timeline-view-subtitle">
                 تسلسلٌ زمنيٌّ منهجيٌّ يرصد تطور حضرموت منذ ممالك اللبان القديمة مروراً بالعصر الإسلامي ودول السلطنات وحتى العصر الحديث.
               </p>
             </div>
@@ -750,7 +749,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=2.1.0"></script>
+  <script src="app.js?v=2.1.0"></script>
 </body>
 </html>

@@ -182,6 +182,7 @@
       'nav-conferences': t.navConferences,
       'nav-forum': t.navForum,
       'nav-timeline': t.navTimeline,
+      'nav-media': t.navMedia,
       'nav-contact': t.navContact
     };
     Object.keys(navMapping).forEach(id => {
@@ -197,6 +198,14 @@
         if (t[key]) link.textContent = t[key];
       }
     });
+
+    // Header WhatsApp Button
+    const txtHeaderWa = document.getElementById('txt-header-wa');
+    if (txtHeaderWa) txtHeaderWa.textContent = t.waHeader;
+
+    // Search Shortcut Badge
+    const searchEscBadge = document.getElementById('search-esc-badge');
+    if (searchEscBadge) searchEscBadge.textContent = t.escClear;
 
     // Update Hero elements
     const heroBadge = document.getElementById('hero-badge');
@@ -228,6 +237,116 @@
       const el = document.getElementById(id);
       if (el) el.textContent = filterMapping[id];
     });
+
+    // Magazine Section on Home
+    const txtMagEyebrow = document.getElementById('txt-mag-eyebrow');
+    const txtMagTitle = document.getElementById('txt-mag-title');
+    const txtMagSubtitle = document.getElementById('txt-mag-subtitle');
+    const magFeatBadge = document.getElementById('mag-feat-badge');
+    const btnReadIssue = document.getElementById('btn-read-issue');
+    if (txtMagEyebrow) txtMagEyebrow.textContent = t.magSectionEyebrow;
+    if (txtMagTitle) txtMagTitle.textContent = t.magSectionTitle;
+    if (txtMagSubtitle) txtMagSubtitle.textContent = t.magSectionSubtitle;
+    if (magFeatBadge) magFeatBadge.textContent = isAr ? 'العدد الأخير الصادر · 40' : 'Latest Volume · Issue 40';
+    if (btnReadIssue) btnReadIssue.textContent = t.readIssue;
+
+    // Books Section on Home
+    const txtBooksEyebrow = document.getElementById('txt-books-eyebrow');
+    const txtBooksTitle = document.getElementById('txt-books-title');
+    const txtBooksSubtitle = document.getElementById('txt-books-subtitle');
+    const btnViewAllBooks = document.getElementById('btn-view-all-books');
+    if (txtBooksEyebrow) txtBooksEyebrow.textContent = t.booksSectionEyebrow;
+    if (txtBooksTitle) txtBooksTitle.textContent = t.booksSectionTitle;
+    if (txtBooksSubtitle) txtBooksSubtitle.textContent = t.booksSectionSubtitle;
+    if (btnViewAllBooks) btnViewAllBooks.textContent = t.viewAllBooks;
+
+    // Forum Section on Home
+    const txtForumEyebrow = document.getElementById('txt-forum-eyebrow');
+    const txtForumTitle = document.getElementById('txt-forum-title');
+    const txtForumSubtitle = document.getElementById('txt-forum-subtitle');
+    if (txtForumEyebrow) txtForumEyebrow.textContent = isAr ? 'النشاط الثقافي والفكري' : 'Cultural & Intellectual Program';
+    if (txtForumTitle) txtForumTitle.textContent = t.forumTitle;
+    if (txtForumSubtitle) txtForumSubtitle.textContent = t.forumSubtitle;
+
+    // Media Section on Home
+    const txtHomeMediaEyebrow = document.getElementById('txt-home-media-eyebrow');
+    const txtHomeMediaTitle = document.getElementById('txt-home-media-title');
+    const txtHomeMediaSubtitle = document.getElementById('txt-home-media-subtitle');
+    const btnViewAllMedia = document.getElementById('btn-view-all-media');
+    if (txtHomeMediaEyebrow) txtHomeMediaEyebrow.textContent = t.mediaEyebrow;
+    if (txtHomeMediaTitle) txtHomeMediaTitle.textContent = t.mediaTitle;
+    if (txtHomeMediaSubtitle) txtHomeMediaSubtitle.textContent = t.mediaSubtitle;
+    if (btnViewAllMedia) btnViewAllMedia.textContent = t.viewAllMedia;
+
+    // Timeline Section on Home
+    const txtTimelineEyebrow = document.getElementById('txt-timeline-eyebrow');
+    const txtTimelineTitle = document.getElementById('txt-timeline-title');
+    const txtTimelineSubtitle = document.getElementById('txt-timeline-subtitle');
+    const btnViewFullTimeline = document.getElementById('btn-view-full-timeline');
+    if (txtTimelineEyebrow) txtTimelineEyebrow.textContent = isAr ? 'ذاكرة المكان والزمان' : 'Chronicles of Civilization';
+    if (txtTimelineTitle) txtTimelineTitle.textContent = t.timelineTitle;
+    if (txtTimelineSubtitle) txtTimelineSubtitle.textContent = t.timelineSubtitle;
+    if (btnViewFullTimeline) btnViewFullTimeline.textContent = t.viewFullTimeline;
+
+    // Dedicated Views Section Headers
+    const txtAboutEyebrow = document.getElementById('txt-about-eyebrow');
+    const aboutHeroTitle = document.getElementById('about-hero-title');
+    const aboutHeroDesc = document.getElementById('about-hero-desc');
+    if (txtAboutEyebrow) txtAboutEyebrow.textContent = isAr ? 'عن المؤسسة ورسالتها' : 'Institutional Profile & Mission';
+    if (aboutHeroTitle) aboutHeroTitle.textContent = isAr ? HC_DATA.institution.nameAr : HC_DATA.institution.nameEn;
+    if (aboutHeroDesc) aboutHeroDesc.textContent = isAr ? 'مركزٌ علميٌّ مستقل، تأسس ليكون رافداً معرفياً ومنهجياً موثوقاً يعنى بحفظ ودراسة ونشر التراث التاريخي لحضرموت وأعلامها وإسهاماتها الحضارية.' : 'An independent scholarly authority founded to preserve, study, and publish the historical heritage, figures, and civilization of Hadhramout.';
+
+    const txtMagArchiveEyebrow = document.getElementById('txt-mag-archive-eyebrow');
+    const txtMagArchiveTitle = document.getElementById('txt-mag-archive-title');
+    const txtMagArchiveSubtitle = document.getElementById('txt-mag-archive-subtitle');
+    if (txtMagArchiveEyebrow) txtMagArchiveEyebrow.textContent = isAr ? 'الدوريات العلمية المحكّمة' : 'Peer-Reviewed Scholarly Periodicals';
+    if (txtMagArchiveTitle) txtMagArchiveTitle.textContent = isAr ? 'مجلة حضرموت الثقافية — الأرشيف الكامل' : 'Hadramout Cultural Magazine — Complete Archive';
+    if (txtMagArchiveSubtitle) txtMagArchiveSubtitle.textContent = isAr ? 'تصفح أعداد مجلة حضرموت الثقافية المحكمة، واطلع على الفهارس والمستخلصات والأبحاث التوثيقية المنشورة.' : 'Browse peer-reviewed issues of Hadramout Cultural Magazine, view indexes, abstracts, and published archival papers.';
+
+    const txtBooksArchiveEyebrow = document.getElementById('txt-books-archive-eyebrow');
+    const txtBooksArchiveTitle = document.getElementById('txt-books-archive-title');
+    const txtBooksArchiveSubtitle = document.getElementById('txt-books-archive-subtitle');
+    if (txtBooksArchiveEyebrow) txtBooksArchiveEyebrow.textContent = isAr ? 'سلسلة إصدارات الكتب' : 'Scholarly Book Series';
+    if (txtBooksArchiveTitle) txtBooksArchiveTitle.textContent = isAr ? 'المكتبة التاريخية والتوثيقية' : 'Historical & Archival Library';
+    if (txtBooksArchiveSubtitle) txtBooksArchiveSubtitle.textContent = isAr ? 'مكتبةٌ شاملة للدراسات والكتب الصادرة عن المركز مع إمكانية التصفية الموضوعية والاقتباس الأكاديمي المباشر.' : 'A comprehensive repository of peer-reviewed books and studies published by the Center with subject filters and instant academic citation generation.';
+
+    const txtConfEyebrow = document.getElementById('txt-conf-eyebrow');
+    const txtConfTitle = document.getElementById('txt-conf-title');
+    const txtConfSubtitle = document.getElementById('txt-conf-subtitle');
+    if (txtConfEyebrow) txtConfEyebrow.textContent = t.confSectionEyebrow;
+    if (txtConfTitle) txtConfTitle.textContent = t.confSectionTitle;
+    if (txtConfSubtitle) txtConfSubtitle.textContent = t.confSectionSubtitle;
+
+    const txtForumViewEyebrow = document.getElementById('txt-forum-view-eyebrow');
+    const txtForumViewTitle = document.getElementById('txt-forum-view-title');
+    const txtForumViewSubtitle = document.getElementById('txt-forum-view-subtitle');
+    if (txtForumViewEyebrow) txtForumViewEyebrow.textContent = isAr ? 'الصالون الثقافي والفكري' : 'Scholarly Forum & Salon';
+    if (txtForumViewTitle) txtForumViewTitle.textContent = t.forumTitle;
+    if (txtForumViewSubtitle) txtForumViewSubtitle.textContent = t.forumSubtitle;
+
+    const txtTimelineViewEyebrow = document.getElementById('txt-timeline-view-eyebrow');
+    const txtTimelineViewTitle = document.getElementById('txt-timeline-view-title');
+    const txtTimelineViewSubtitle = document.getElementById('txt-timeline-view-subtitle');
+    if (txtTimelineViewEyebrow) txtTimelineViewEyebrow.textContent = isAr ? 'السجل التاريخي الشامل' : 'Comprehensive Historical Record';
+    if (txtTimelineViewTitle) txtTimelineViewTitle.textContent = isAr ? 'خط التاريخ والحضارة الحضرمية' : 'Chronological Timeline of Hadhrami Civilization';
+    if (txtTimelineViewSubtitle) txtTimelineViewSubtitle.textContent = isAr ? 'تسلسلٌ زمنيٌّ منهجيٌّ يرصد تطور حضرموت منذ ممالك اللبان القديمة مروراً بالعصر الإسلامي ودول السلطنات وحتى العصر الحديث.' : 'A methodical chronological timeline documenting the rise and evolution of Hadhramout from antiquity to modern era.';
+
+    const txtMediaEyebrow = document.getElementById('txt-media-eyebrow');
+    const txtMediaTitle = document.getElementById('txt-media-title');
+    const txtMediaSubtitle = document.getElementById('txt-media-subtitle');
+    if (txtMediaEyebrow) txtMediaEyebrow.textContent = t.mediaEyebrow;
+    if (txtMediaTitle) txtMediaTitle.textContent = t.mediaTitle;
+    if (txtMediaSubtitle) txtMediaSubtitle.textContent = t.mediaSubtitle;
+
+    const filterMediaAll = document.getElementById('filter-media-all');
+    const filterMediaPodcast = document.getElementById('filter-media-podcast');
+    const filterMediaVideo = document.getElementById('filter-media-video');
+    if (filterMediaAll) filterMediaAll.textContent = isAr ? 'الكل' : 'All';
+    if (filterMediaPodcast) filterMediaPodcast.textContent = isAr ? 'بودكاست سقاية' : 'Siqayah Podcast';
+    if (filterMediaVideo) filterMediaVideo.textContent = isAr ? 'سلسلة كاتب وكتاب والندوات' : 'Author & Book Series';
+
+    const savedModalTitle = document.getElementById('saved-modal-title');
+    if (savedModalTitle) savedModalTitle.textContent = t.savedModalHeading;
 
     // Re-render Dynamic Components in current language
     renderAllComponents();
@@ -928,6 +1047,26 @@
         elements.mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
       });
     }
+
+    // Mobile Hamburger Menu Trigger
+    if (elements.mobileMenuBtn && elements.mobileDrawer) {
+      elements.mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = elements.mobileDrawer.classList.toggle('open');
+        elements.mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+
+    // Close Mobile Drawer on Link Click
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (elements.mobileDrawer) {
+          elements.mobileDrawer.classList.remove('open');
+        }
+        if (elements.mobileMenuBtn) {
+          elements.mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
 
     // Language Toggle Button
     if (elements.langToggleBtn) {
