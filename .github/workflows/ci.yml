@@ -1,0 +1,30 @@
+name: Production Readiness & Quality Audit
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  audit:
+    name: Code & Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax Check JavaScript
+        run: node -c app.js data.js scripts/validate.js
+
+      - name: Run Novixa Integrity Audit
+        run: npm test
