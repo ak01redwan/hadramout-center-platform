@@ -20,12 +20,18 @@
 | **Phase 6: Verification, Testing & QA** | Responsive testing, cross-browser validation, accessibility | ✅ Done | Automated audit suite & browser subagent passed with **0 errors** |
 | **Phase 7: Handover & Case Study Preparation** | Handover package, maintenance guide, Novixa case study | ✅ Done | Complete `docs/handover/` and `docs/strategy/case-study-strategy.md` |
 | **Phase 8: Production Deployment Prep** | Vercel/Netlify headers, robots.txt, sitemap.xml, PWA webmanifest, favicon | ✅ Done | `node scripts/validate.js` passed 100% |
+| **Phase 9: Autonomous Agent Rules & Governance** | `.agents/rules/` suite and `AGENTS.md` guidelines | ✅ Done | Established permanent engineering standards, git workflow, and testing policies |
+| **Phase 10: Master Arabic Documentation & Playbook** | Comprehensive Arabic manual, UAT guide, client directory, outreach templates | ✅ Done | Created `MANUAL_AND_AUDIT_ARABIC.md` with 100% complete instructions and seed data |
 
 ---
 
 ## 2. Browser Verification Report
-- **URL Tested:** `http://localhost:4173/`
+- **URL Tested:** `http://localhost:3000/` & `http://localhost:4173/`
 - **Console Errors:** **0 Errors / 0 Warnings**
 - **404 Defect on `/about`:** Completely resolved; loads mission, leadership (Prof. Dr. Al-Ja'idi & Mr. Bin Ali Jaber), and 4 research departments.
 - **Publications & Search:** Real-time multi-attribute search and category filters verified.
-- **Citations:** Dynamic APA, Chicago, and MLA citation generator with toast confirmation verified.
+- **Citations:** Dynamic APA 7th, Chicago 17th, and MLA 9th citation generator with toast confirmation verified.
+- **Bilingual i18n:** Complete bidirectional toggle (Arabic RTL <-> English LTR) with 100% key parity.
+- **Saved Researches (Bookmarks):** Persistent local storage, badge counter, and research list modal verified.
+- **Audio & Media:** Modal dialog and audio player controls for *Siqayah Podcast* verified.
+

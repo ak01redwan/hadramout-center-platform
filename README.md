@@ -38,7 +38,10 @@ The **Hadhramout Center for Historical Studies, Documentation and Publishing** (
 ---
 
 ## 📖 Project Documentation
-Extensive documentation is located in [`/docs`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/):
+Extensive documentation is located in [`/docs`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/) and root guides:
+- [AGENTS.md](file:///d:/novixa-free-sites/hadramout-center-platform/AGENTS.md) - Autonomous Agent directives, engineering standards, and continuous workflow.
+- [MANUAL_AND_AUDIT_ARABIC.md](file:///d:/novixa-free-sites/hadramout-center-platform/MANUAL_AND_AUDIT_ARABIC.md) - **الدليل الشامل والتقرير التقني النهائي ودليل الفحص الذاتي خطوة بخطوة باللغة العربية**.
+- [MASTER_STRATEGY_HADRAMOUT_NOVIXA.md](file:///d:/novixa-free-sites/hadramout-center-platform/MASTER_STRATEGY_HADRAMOUT_NOVIXA.md) - Unified executive strategy & field playbook.
 - [`/docs/strategy/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/strategy/) - Initiative strategy, candidate evaluation matrix, scope, and metrics.
 - [`/docs/research/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/research/) - Organization research, live digital presence audit, audience personas.
 - [`/docs/ux/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/ux/) - Information architecture, sitemap, user journeys, UX requirements.
@@ -47,3 +50,4 @@ Extensive documentation is located in [`/docs`](file:///d:/novixa-free-sites/had
 - [`/docs/technical/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/technical/) - Technical architecture, TDR, performance, security, deployment.
 - [`/docs/qa/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/qa/) - Test plan, responsive matrix, QA verification.
 - [`/docs/handover/`](file:///d:/novixa-free-sites/hadramout-center-platform/docs/handover/) - Custodianship agreement, admin guide, maintenance guide.
+

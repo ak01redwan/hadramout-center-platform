@@ -2,6 +2,14 @@
 
 All notable changes to the Hadhramout Center Digital Platform are documented here.
 
+## [1.1.0] - 2026-10-07
+### Autonomous Engineering Standards, Arabic Master Playbook & Verification Suite
+- **Added:** Workspace autonomous agent rules suite in `.agents/rules/` (`engineering-standards.md`, `autonomous-workflow.md`, `git-workflow.md`, `quality-assurance.md`).
+- **Added:** Top-level agent directives and architecture manual in `AGENTS.md`.
+- **Added:** Master Arabic platform manual, outreach playbook, client directory, and step-by-step UAT testing guide in `MANUAL_AND_AUDIT_ARABIC.md`.
+- **Added:** Comprehensive multi-viewport browser testing covering dark mode, font scaling, bookmarks, RIS/BibTeX export, and bilingual transitions.
+- **Enhanced:** Production readiness test suite running with 100% pass rate.
+
 ## [1.0.0] - 2026-09-25
 ### Initial Production Release (Novixa Flagship Pro Bono Contribution)
 - **Added:** Full institutional knowledge platform with bilingual (Arabic/English) support.
@@ -14,3 +22,4 @@ All notable changes to the Hadhramout Center Digital Platform are documented her
 - **Added:** Direct WhatsApp routing for book orders and research inquiries.
 - **Added:** Schema.org JSON-LD structured data for Google Scholar and institutional SEO.
 - **Added:** Full documentation suite in `/docs` (research, strategy, ux, content, design, technical, qa, handover).
+
