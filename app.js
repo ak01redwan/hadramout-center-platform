@@ -120,17 +120,42 @@
   function updateDocumentTitle() {
     const isAr = state.currentLang === 'ar';
     const titles = {
-      home: isAr ? 'مركز حضرموت للدراسات التاريخية والتوثيق والنشر | المنصة الرقمية' : 'Hadhramout Center for Historical Studies & Documentation',
-      about: isAr ? 'عن المركز ورسالته | مركز حضرموت' : 'About the Center | Hadhramout Center',
-      magazines: isAr ? 'مجلة حضرموت الثقافية | مركز حضرموت' : 'Hadramout Cultural Magazine | Hadhramout Center',
-      books: isAr ? 'سلسلة إصدارات الكتب | مركز حضرموت' : 'Book Publications | Hadhramout Center',
-      conferences: isAr ? 'المؤتمرات العلمية | مركز حضرموت' : 'Scientific Conferences | Hadhramout Center',
-      forum: isAr ? 'منتدى عميد الوفاء الثقافي | مركز حضرموت' : 'Ameed Al-Wafa Cultural Forum | Hadhramout Center',
-      timeline: isAr ? 'خط التاريخ والحضارة الحضرمية | مركز حضرموت' : 'Historical Timeline of Hadhramout',
-      media: isAr ? 'الوسائط وبودكاست سقاية | مركز حضرموت' : 'Media & Siqayah Podcast | Hadhramout Center',
-      contact: isAr ? 'تواصل مع المركز وطلب الأبحاث | مركز حضرموت' : 'Contact & Research Inquiries | Hadhramout Center'
+      home: isAr ? 'مركز حضرموت للدراسات التاريخية والتوثيق والنشر | المنصة الرقمية المعرفية' : 'Hadhramout Center for Historical Studies & Documentation | Digital Platform',
+      about: isAr ? 'عن المركز ورسالته وأقسامه العلمية | مركز حضرموت' : 'About the Center, Leadership & Departments | Hadhramout Center',
+      magazines: isAr ? 'مجلة حضرموت الثقافية (الأعداد والأرشيف) | مركز حضرموت' : 'Hadramout Cultural Magazine Archive | Hadhramout Center',
+      books: isAr ? 'سلسلة إصدارات الكتب والأبحاث المحكمة | مركز حضرموت' : 'Book Publications & Scholarly Monographs | Hadhramout Center',
+      conferences: isAr ? 'المؤتمرات والندوات العلمية | مركز حضرموت' : 'Scientific Conferences & Symposia | Hadhramout Center',
+      forum: isAr ? 'منتدى عميد الوفاء الثقافي بالمكلا | مركز حضرموت' : 'Ameed Al-Wafa Cultural Forum | Hadhramout Center',
+      timeline: isAr ? 'الخط الزمني لتاريخ وحضارة حضرموت | مركز حضرموت' : 'Historical Timeline of Hadhramout',
+      media: isAr ? 'الوسائط وبودكاست سقاية التاريخي | مركز حضرموت' : 'Media & Siqayah Podcast | Hadhramout Center',
+      contact: isAr ? 'تواصل مع المركز وطلب المراجع والأبحاث | مركز حضرموت' : 'Contact & Research Inquiries | Hadhramout Center'
     };
-    document.title = titles[state.currentView] || titles.home;
+    const descriptions = {
+      home: isAr ? 'المنصة العلمية المرجعية لمركز حضرموت للدراسات التاريخية والتوثيق والنشر بالمكلا — حفظ الذاكرة وتوثيق تاريخ وتراث وحضارة حضرموت.' : 'Digital reference platform for the Hadhramout Center for Historical Studies, Documentation and Publishing in Mukalla, Yemen.',
+      about: isAr ? 'تعرف على مركز حضرموت للدراسات التاريخية، مجلس الإدارة، هيئته العلمية، وأقسامه الأكاديمية بالمكلا.' : 'Learn about Hadhramout Center, its scientific board, leadership, and research departments.',
+      magazines: isAr ? 'أرشيف مجلة حضرموت الثقافية الفصلي، أبحاث محكمة، وثائق تاريخية غير منشورة، واستعراض العدد 40.' : 'Archive of Majallat Hadramout Al-Thaqafiyyah with research papers and historical documents.',
+      books: isAr ? 'فهرس إصدارات الكتب التاريخية للمركز مع أدوات الاستشهاد العلمي الفوري (APA / Chicago / MLA).' : 'Peer-reviewed historical monographs with instant citation generators (APA, Chicago, MLA).',
+      conferences: isAr ? 'المؤتمرات العلمية الدولية والندوات الأكاديمية المخصصة لتاريخ وحضارة حضرموت.' : 'Biennial international academic conferences and symposia on Hadhramout history.',
+      forum: isAr ? 'منتدى عميد الوفاء الثقافي بالمكلا — محاضرات فكرية، نقد أدبي، وحوارات تاريخية.' : 'Muntada Ameed Al-Wafa cultural forum in Mukalla, lectures and literary discussions.',
+      timeline: isAr ? 'استكشف الخط الزمني لتاريخ حضرموت من حضارات اللبان إلى العصر الحديث.' : 'Chronological historical journey through Hadhramout eras from antiquity to modern times.',
+      media: isAr ? 'المحاضرات المصورة، الأشرطة الوثائقية، وحلقات بودكاست سقاية التاريخي.' : 'Documentaries, lectures, and historical episodes of Siqayah Podcast.',
+      contact: isAr ? 'تواصل مع إدارة المركز بالمكلا لطلب المطبوعات، الاستشارات الأكاديمية، والتعاون البحثي.' : 'Contact Center management in Mukalla for publications, consultations, and research cooperation.'
+    };
+
+    const newTitle = titles[state.currentView] || titles.home;
+    const newDesc = descriptions[state.currentView] || descriptions.home;
+    document.title = newTitle;
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', newDesc);
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', newTitle);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', newDesc);
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', newTitle);
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', newDesc);
   }
 
   // Routing via Hash
